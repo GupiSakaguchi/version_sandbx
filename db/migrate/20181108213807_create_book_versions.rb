@@ -1,6 +1,6 @@
 # This migration creates the `versions` table, the only schema PT requires.
 # All other migrations PT provides are optional.
-class CreateVersions < ActiveRecord::Migration<%= migration_version %>
+class CreateBookVersions < ActiveRecord::Migration[5.2]
 
   # The largest text column available in all supported RDBMS is
   # 1024^3 - 1 bytes, roughly one gibibyte.  We specify a size
@@ -9,8 +9,8 @@ class CreateVersions < ActiveRecord::Migration<%= migration_version %>
   TEXT_BYTES = 1_073_741_823
 
   def change
-    create_table :versions<%= versions_table_options %> do |t|
-      t.string   :item_type<%= item_type_options %>
+    create_table :book_versions do |t|
+      t.string   :item_type, {:null=>false}
       t.integer  :item_id,   null: false
       t.string   :event,     null: false
       t.string   :whodunnit
@@ -31,6 +31,6 @@ class CreateVersions < ActiveRecord::Migration<%= migration_version %>
       #
       t.datetime :created_at
     end
-    add_index :versions, %i(item_type item_id)
+    add_index :book_versions, %i(item_type item_id)
   end
 end
