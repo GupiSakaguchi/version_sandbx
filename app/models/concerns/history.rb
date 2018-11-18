@@ -9,6 +9,15 @@ module History
   end
 
   def last_attribute(attr)
-    versions.last.reify.send(attr.to_sym)
+    last_version.reify.send(attr.to_sym)
   end
+
+  def last_user
+    last_version.whodunnit ||= ""
+  end
+
+  private
+    def last_version
+      versions.last
+    end
 end
